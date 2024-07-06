@@ -1,0 +1,185 @@
+USE [master]
+GO
+/****** Object:  Database [NZWalksDb]    Script Date: 06-07-2024 11:11:36 ******/
+CREATE DATABASE [NZWalksDb]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'NZWalksDb', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL14.MSSQLSERVER\MSSQL\DATA\NZWalksDb.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'NZWalksDb_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL14.MSSQLSERVER\MSSQL\DATA\NZWalksDb_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+GO
+ALTER DATABASE [NZWalksDb] SET COMPATIBILITY_LEVEL = 140
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [NZWalksDb].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [NZWalksDb] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [NZWalksDb] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [NZWalksDb] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [NZWalksDb] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [NZWalksDb] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [NZWalksDb] SET AUTO_CLOSE ON 
+GO
+ALTER DATABASE [NZWalksDb] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [NZWalksDb] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [NZWalksDb] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [NZWalksDb] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [NZWalksDb] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [NZWalksDb] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [NZWalksDb] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [NZWalksDb] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [NZWalksDb] SET  ENABLE_BROKER 
+GO
+ALTER DATABASE [NZWalksDb] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [NZWalksDb] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [NZWalksDb] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [NZWalksDb] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [NZWalksDb] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [NZWalksDb] SET READ_COMMITTED_SNAPSHOT ON 
+GO
+ALTER DATABASE [NZWalksDb] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [NZWalksDb] SET RECOVERY SIMPLE 
+GO
+ALTER DATABASE [NZWalksDb] SET  MULTI_USER 
+GO
+ALTER DATABASE [NZWalksDb] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [NZWalksDb] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [NZWalksDb] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [NZWalksDb] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [NZWalksDb] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [NZWalksDb] SET QUERY_STORE = OFF
+GO
+USE [NZWalksDb]
+GO
+/****** Object:  Table [dbo].[__EFMigrationsHistory]    Script Date: 06-07-2024 11:11:36 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[__EFMigrationsHistory](
+	[MigrationId] [nvarchar](150) NOT NULL,
+	[ProductVersion] [nvarchar](32) NOT NULL,
+ CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY CLUSTERED 
+(
+	[MigrationId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Regions]    Script Date: 06-07-2024 11:11:36 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Regions](
+	[Id] [uniqueidentifier] NOT NULL,
+	[Code] [nvarchar](max) NOT NULL,
+	[Name] [nvarchar](max) NOT NULL,
+	[Area] [float] NOT NULL,
+	[Lat] [float] NOT NULL,
+	[Long] [float] NOT NULL,
+	[Population] [bigint] NOT NULL,
+ CONSTRAINT [PK_Regions] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[walkDifficulty]    Script Date: 06-07-2024 11:11:36 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[walkDifficulty](
+	[Id] [uniqueidentifier] NOT NULL,
+	[Code] [nvarchar](max) NOT NULL,
+ CONSTRAINT [PK_walkDifficulty] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Walks]    Script Date: 06-07-2024 11:11:36 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Walks](
+	[Id] [uniqueidentifier] NOT NULL,
+	[Name] [nvarchar](max) NOT NULL,
+	[Length] [float] NOT NULL,
+	[RegionId] [uniqueidentifier] NOT NULL,
+	[WalkDifficultyId] [uniqueidentifier] NOT NULL,
+ CONSTRAINT [PK_Walks] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+INSERT [dbo].[__EFMigrationsHistory] ([MigrationId], [ProductVersion]) VALUES (N'20230126193425_InitialMigration', N'6.0.0')
+INSERT [dbo].[Regions] ([Id], [Code], [Name], [Area], [Lat], [Long], [Population]) VALUES (N'79e9872d-5a2f-413e-ac36-511036ccd3d4', N'WAIKO', N'Waikato Region', 10000, -37.5144584, 174.5405128, 500000)
+INSERT [dbo].[Regions] ([Id], [Code], [Name], [Area], [Lat], [Long], [Population]) VALUES (N'b950ddf5-e9ad-47ff-9d2a-57259014fae6', N'NRTHL', N'Northland Region', 13789, -35.3708304, 172.5717825, 194600)
+INSERT [dbo].[Regions] ([Id], [Code], [Name], [Area], [Lat], [Long], [Population]) VALUES (N'907f54ba-2142-4719-aef9-6230c23bd7de', N'AUCK', N'Auckland Region', 4894, -36.5253207, 173.7785704, 1718982)
+INSERT [dbo].[Regions] ([Id], [Code], [Name], [Area], [Lat], [Long], [Population]) VALUES (N'68c2ab66-c5eb-40b6-81e0-954456d06bba', N'BAYP', N'Bay Of Plenty Region', 12230, -37.5328259, 175.7642701, 345400)
+INSERT [dbo].[walkDifficulty] ([Id], [Code]) VALUES (N'30f96ef9-7b45-42f7-9fab-05a70e7fc394', N'Hard')
+INSERT [dbo].[walkDifficulty] ([Id], [Code]) VALUES (N'a1066e97-c7c8-4aee-905b-61bb31d82bfb', N'Medium')
+INSERT [dbo].[walkDifficulty] ([Id], [Code]) VALUES (N'4c2b95e0-2022-4a8f-b537-eb3a32786b06', N'Easy')
+INSERT [dbo].[Walks] ([Id], [Name], [Length], [RegionId], [WalkDifficultyId]) VALUES (N'79e9872d-5a2f-413e-ac36-511036ccd3d4', N'One Tree Hill Walk', 3.5, N'907f54ba-2142-4719-aef9-6230c23bd7de', N'4c2b95e0-2022-4a8f-b537-eb3a32786b06')
+INSERT [dbo].[Walks] ([Id], [Name], [Length], [RegionId], [WalkDifficultyId]) VALUES (N'b950ddf5-e9ad-47ff-9d2a-57259014fae6', N'Waiotemarama Loop Track', 1.5, N'b950ddf5-e9ad-47ff-9d2a-57259014fae6', N'a1066e97-c7c8-4aee-905b-61bb31d82bfb')
+INSERT [dbo].[Walks] ([Id], [Name], [Length], [RegionId], [WalkDifficultyId]) VALUES (N'a1066e97-c7c8-4aee-905b-61bb31d82bfb', N'Rainbow Mountain Reserve Walk', 3.5, N'68c2ab66-c5eb-40b6-81e0-954456d06bba', N'a1066e97-c7c8-4aee-905b-61bb31d82bfb')
+INSERT [dbo].[Walks] ([Id], [Name], [Length], [RegionId], [WalkDifficultyId]) VALUES (N'907f54ba-2142-4719-aef9-6230c23bd7de', N'Mt Eden Volcano Walk', 2, N'907f54ba-2142-4719-aef9-6230c23bd7de', N'4c2b95e0-2022-4a8f-b537-eb3a32786b06')
+INSERT [dbo].[Walks] ([Id], [Name], [Length], [RegionId], [WalkDifficultyId]) VALUES (N'68c2ab66-c5eb-40b6-81e0-954456d06bba', N'Lonely Bay', 1.2, N'79e9872d-5a2f-413e-ac36-511036ccd3d4', N'4c2b95e0-2022-4a8f-b537-eb3a32786b06')
+INSERT [dbo].[Walks] ([Id], [Name], [Length], [RegionId], [WalkDifficultyId]) VALUES (N'4c2b95e0-2022-4a8f-b537-eb3a32786b06', N'Mt Te Aroha To Wharawhara Track Walk', 32, N'68c2ab66-c5eb-40b6-81e0-954456d06bba', N'30f96ef9-7b45-42f7-9fab-05a70e7fc394')
+/****** Object:  Index [IX_Walks_RegionId]    Script Date: 06-07-2024 11:11:36 ******/
+CREATE NONCLUSTERED INDEX [IX_Walks_RegionId] ON [dbo].[Walks]
+(
+	[RegionId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+/****** Object:  Index [IX_Walks_WalkDifficultyId]    Script Date: 06-07-2024 11:11:36 ******/
+CREATE NONCLUSTERED INDEX [IX_Walks_WalkDifficultyId] ON [dbo].[Walks]
+(
+	[WalkDifficultyId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Walks]  WITH CHECK ADD  CONSTRAINT [FK_Walks_Regions_RegionId] FOREIGN KEY([RegionId])
+REFERENCES [dbo].[Regions] ([Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[Walks] CHECK CONSTRAINT [FK_Walks_Regions_RegionId]
+GO
+ALTER TABLE [dbo].[Walks]  WITH CHECK ADD  CONSTRAINT [FK_Walks_walkDifficulty_WalkDifficultyId] FOREIGN KEY([WalkDifficultyId])
+REFERENCES [dbo].[walkDifficulty] ([Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[Walks] CHECK CONSTRAINT [FK_Walks_walkDifficulty_WalkDifficultyId]
+GO
+USE [master]
+GO
+ALTER DATABASE [NZWalksDb] SET  READ_WRITE 
+GO
