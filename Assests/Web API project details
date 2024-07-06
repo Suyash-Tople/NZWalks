@@ -1,0 +1,92 @@
+The entry point to ASP.NET application is program.cs file. When we run the project, the code first runs this program.cs file.
+
+It creates "WebApplication builder" class(var builder = WebApplication.CreateBuilder(args);), which we can then use to inject the dependencies into the
+services collection. (builder.Services.AddControllers();, builder.Services.AddSwaggerGen();)
+
+We then configure HTTP request pipeline and finally run the application. After this, our API is running and listening  to any client that calls its endpoints.
+
+
+APPSETTING.JSON FILE: The appsetting.json file is an application configuration file used to store configuration settings. such as database connection strings,
+any application scope, global variables and etc.
+
+Contoller folder: hold the APIs in the form of API controllers. ASP.NET Core supports creating restfull services, also known as WEBAPIs using C#.
+To handle requests a webAPI uses controllers, Controllers in WEB-API classes that derives from the "ControllerBase" Class. Controllers have HTTP methods
+like get, post, put, delete and patch.
+
+A RestAPI also known as Restfull API is an API that conforms to the constraints or REST archietectural style and allows for interaction with restfull
+web services. When a client request is made while rest API, it transfers a representation of the state of the resource to the endpoint. This information is
+delivered in one or several formats via HTTP protocol.The most common format is JASON data format.
+
+GET calls can be made directly from the browser as well, but it cannot make POST call directly. For POST calls we will need a client like Swagger or Postman.
+
+A GUID (globally unique identifier) is a 128-bit text string that represents an identification (ID). Organizations generate GUIDs when a unique reference 
+number is needed to identify information on a computer or network. A GUID can be used to ID hardware, software, accounts, documents and other items.
+
+Entity Framework Core is a modern object database mapper for dot net. It supports linq queries, change trackings updates and schema migrations. EF Core 
+works with many databases including SQL, Donor Base, SQLite, mySQL, etc.
+
+DBContext Class: DBContext instance represents a session with the database and it can be used to query and save instances of your entities. Basically, we
+use DBContext class as a way to query and persist our data to the database.
+    ---- Create DbContext options and this will be of type the class so that it knows which DBContext we are talking about: pass it to the base class. 
+    ---- public NZWalksDbContext(DbContextOptions<NZWalksDbContext> options): base(options)
+	
+    ---- Once done it is now time to create three propertities of basically DB set types.
+	-  public DbSet<Region> Regions { get; set; }
+	   By creating this property we are telling entity framework that please create a region table for us, If it doesn't exists in the database. This
+	   is a connection or property that tells you that you can now talk to the Region table.
+	-public DbSet<Walk> Walks { get; set; }
+	-public DbSet<WalkDifficulty> walkDifficulty { get; set; }
+
+
+Entity Framework Migration is used to create table in SQL Server using connection defined in appsettings. Commands - Add-migration -Name: InitialMigration.
+It will create folder migration and contains two files. 
+Command: Update-Database - will use the migration files and update the database or create database for us.
+
+pacakge manager console: add-migration "Folder Name"
+To execute and create tables in SQL Server: update-database
+
+DEPENDECNY INJECTION: is a software design pattern , which is a technique for achieving inversion of control between classes and their dependencies.
+In this pattern, the dependencies of a class are injected into them rather than the class directly creating them. 
+
+We make use of Interfaces.
+We then register dependencies in a service container that ASP.NET Core provides and, 
+Inject the service into the constructor of the class.
+
+SO, 1: We will create IMyDependency interface first.
+    2: then, we will create an implementation of the IMyDependency interface.
+    3: then , we will inject the dependency into the service collection. (Program.cs)
+    4: finally, we will inject the service into the class that wants to use it.
+
+
+REPOSITORY PATTERN :
+
+In an API solution without repository, the controller directly calls the DBContext and the DBContext calls the database. Considered as bad practise as the 
+code is not testable and if we want to change the implementation of not using the entity framework but something else.for ex: Stored Procedures then we will
+have to make changes to the controller. This is not ideal.
+
+With repositories, We can create I-repository interface and then implement a repository which in turn calls the database. Then we can inject these
+repositories into the service collection and using dependency injection we can inject repositories into controllers. Therefore, controller does not depend
+on the implementation of how data is coming back from the database. 
+
+IRepository is an Interface
+Repository class is an implementation of that interface.
+A class that implements interface must implement all the members of that interface.
+
+
+The Domain models which are model domain, define how our domain looks like, If in future if we want to change the domain model or some property of the domain
+model to be different. Then the exposed property from the controller to the client will be changed and that will be breaking change for the client of the API
+This is a bad practise. The clients of the API should never get breaking changes in the current version of the API that they are using. The clients can have
+breaking changes as part of a newer version of the API, but not the current version.
+
+DTO's: Data transfer objects: These are models that are exposed to the outside world. These can be similar to the domain models or different. The main 
+purpose of DTO's is to pass data.
+
+Automapper is third party library, that gives us the ability to map objects from source to destination. 
+Profile is basically a way to tell the application that we have a code that is mapping the models for us. 
+
+Synchronous and Asynchronous:
+In Synchornous operations tasks are performed one at a time and only when one is completed. The following is unblocked, In other words you need to wait for
+a task to finish to move to the next one.
+
+In Asynchronous operations, we can move to another task before the previous one finishes. This way, with asynchronous programming we are able to deal with
+multiple requests simultaneously, thus completing more task in shorter period of time. 
